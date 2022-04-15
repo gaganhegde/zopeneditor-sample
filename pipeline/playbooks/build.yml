@@ -30,5 +30,5 @@
         /usr/lpp/IBM/dbb/bin/groovyz\
            ${WORKSPACE}/dbb-zappbuild/build.groovy --logEncoding UTF-8 -w ${WORKSPACE}\
            --workDir ${WORKSPACE}/work -f\
-           --application zopeneditor-sample --sourceDir ${WORKSPACE} -h IBMUSER.SAMPLE\
-           -p  ${WORKSPACE}/zopeneditor-sample/application-conf/datasets-waziaas.properties
+           --application {{app_repo_name}} --sourceDir ${WORKSPACE} -h IBMUSER.SAMPLE\
+           -p  ${WORKSPACE}/{{app_repo_name}}/application-conf/datasets.properties
