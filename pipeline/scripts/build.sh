@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#set -euo pipefail
+set -euo pipefail
 
 # $WORKSPACE is shared between steps
 source $WORKSPACE/virtual/environment/bin/activate

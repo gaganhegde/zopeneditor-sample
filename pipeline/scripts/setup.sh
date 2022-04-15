@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#set -euo pipefail
+set -euo pipefail
 
 # $WORKSPACE is shared between steps
 python3 -m venv $WORKSPACE/virtual/environment
