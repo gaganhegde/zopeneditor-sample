@@ -27,9 +27,9 @@
         export WORKSPACE=/tmp/pipeline/{{app_repo_name}}
         export JAVA_HOME=/usr/lpp/java/J8.0_64
         export PATH=/rsusr/ported/bin:$PATH
-        rm -rf $WORKSPACE
+        rm -rf $WORKSPACE/work/{{app_repo_name}}
         /usr/lpp/IBM/dbb/bin/groovyz\
            ${WORKSPACE}/dbb-zappbuild/build.groovy --logEncoding UTF-8 -w ${WORKSPACE}\
-           --workDir ${WORKSPACE}/work -f\
+           --workDir ${WORKSPACE}/work/{{app_repo_name}} -f\
            --application {{app_repo_name}} --sourceDir ${WORKSPACE} -h IBMUSER.SAMPLE\
            -p  ${WORKSPACE}/{{app_repo_name}}/application-conf/datasets.properties
