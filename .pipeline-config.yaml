@@ -13,7 +13,6 @@ static-scan:
   image: icr.io/continuous-delivery/pipeline/pipeline-base-ubi@sha256:d59863621d3ba1b9bd47f76950c751e842405f9c303d0d4d4298d964b664ee85
   script: |
     #!/usr/bin/env bash
-    # FIXME: image is mandatory?
     echo "Perform Static Scan"
     exit 0
     
