@@ -24,7 +24,7 @@
         
     - name: Build the sample application
       shell: |
-        export WORKSPACE=/tmp/pipeline/{{app_repo_name}}
+        export WORKSPACE=/tmp/pipeline
         export JAVA_HOME=/usr/lpp/java/J8.0_64
         export PATH=/rsusr/ported/bin:$PATH
         rm -rf $WORKSPACE/work/{{app_repo_name}}
