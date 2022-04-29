@@ -9,6 +9,7 @@ else
   IBMCLOUD_API_KEY="$(cat /config/ibmcloud-api-key)" # pragma: allowlist secret
 fi
 
+echo "IBMCLOUD_API_KEY"
 echo $IBMCLOUD_API_KEY
 
 # $WORKSPACE is shared between steps
