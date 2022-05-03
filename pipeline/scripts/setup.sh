@@ -10,6 +10,10 @@ else
     echo "ibmcloud command could not be found"
 fi
 
+IBMCLOUD_API_KEY="$(get_env ibmcloud-api-key "")"
+echo "printing the api key"
+echo $IBMCLOUD_API_KEY
+
 # $WORKSPACE is shared between steps
 python3 -m venv $WORKSPACE/virtual/environment
 source $WORKSPACE/virtual/environment/bin/activate
