@@ -11,8 +11,11 @@ else
 fi
 
 IBMCLOUD_API_KEY="$(get_env ibmcloud-api-key "")"
+DEV_REGION="$(get_env dev-region "")"
 echo "printing the api key"
 echo $IBMCLOUD_API_KEY
+echo $DEV_REGION
+echo "process completed"
 
 # $WORKSPACE is shared between steps
 python3 -m venv $WORKSPACE/virtual/environment
