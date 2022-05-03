@@ -11,11 +11,18 @@ else
 fi
 
 IBMCLOUD_API_KEY="$(get_env ibmcloud-api-key "")"
-DEV_REGION=("$(get_env dev-region "")" | awk -F: '{print $3}')
+DEV_REGION="$(get_env dev-region "")"
+IBM_CLOUD_REGION="${DEV_REGION#*:*:}"
 echo "printing the api key"
 echo $IBMCLOUD_API_KEY
 echo $DEV_REGION
 echo "process completed"
+
+if ibmcloud login --apikey $IBMCLOUD_API_KEY -r "$DEV_REGION"  ;then
+    echo "Command Succeded"
+else
+    echo "could not login into IBM cloud"
+fi
 
 # $WORKSPACE is shared between steps
 python3 -m venv $WORKSPACE/virtual/environment
