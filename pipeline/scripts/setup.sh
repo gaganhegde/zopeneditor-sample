@@ -4,24 +4,19 @@ set -euo pipefail
 
 echo "test-1"
 
-if ibmcloud --help ;then
-    echo "Command Succeded"
-else
-    echo "ibmcloud command could not be found"
-fi
-
+#FETCH SECRET FROM SECRET MANAGER
 IBMCLOUD_API_KEY="$(get_env ibmcloud-api-key "")"
 DEV_REGION="$(get_env dev-region "")"
 IBM_CLOUD_REGION="${DEV_REGION#*:*:}"
 echo "printing the api key"
 echo $IBMCLOUD_API_KEY
-echo $DEV_REGION
+echo $IBM_CLOUD_REGION
 echo "process completed"
 
-if ibmcloud login --apikey $IBMCLOUD_API_KEY -r "$DEV_REGION"  ;then
+if ibmcloud login --apikey $IBMCLOUD_API_KEY -r "$IBM_CLOUD_REGION"  ;then
     echo "Command Succeded"
 else
-    echo "could not login into IBM cloud"
+    echo "could not log into IBM cloud"
 fi
 
 # $WORKSPACE is shared between steps
