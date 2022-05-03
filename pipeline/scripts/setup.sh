@@ -1,16 +1,14 @@
 #!/usr/bin/env bash
 
 set -euo pipefail
-export IBMCLOUD_API_KEY
 
-if [ -f /config/api-key ]; then
-  IBMCLOUD_API_KEY="$(cat /config/api-key)" # pragma: allowlist secret
+echo "test-1"
+
+if ibmcloud --help ;then
+    echo "Command Succeded"
 else
-  IBMCLOUD_API_KEY="$(cat /config/ibmcloud-api-key)" # pragma: allowlist secret
+    echo "ibmcloud command could not be found"
 fi
-
-echo "IBMCLOUD_API_KEY"
-echo $IBMCLOUD_API_KEY
 
 # $WORKSPACE is shared between steps
 python3 -m venv $WORKSPACE/virtual/environment
