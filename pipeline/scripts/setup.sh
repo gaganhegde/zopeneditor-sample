@@ -11,7 +11,7 @@ else
 fi
 
 IBMCLOUD_API_KEY="$(get_env ibmcloud-api-key "")"
-DEV_REGION="$(get_env dev-region "")"
+DEV_REGION=("$(get_env dev-region "")" | awk -F: '{print $3}')
 echo "printing the api key"
 echo $IBMCLOUD_API_KEY
 echo $DEV_REGION
