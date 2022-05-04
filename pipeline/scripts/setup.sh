@@ -54,7 +54,7 @@ else
     exit -1
 fi
 
-chmod 0600  $WORKSPACE/ssh_auth.txt
+# chmod 0600  $WORKSPACE/ssh_auth.txt
 
 echo "Secret data for ${SECRET_NAME} securely stored"
 
