@@ -14,44 +14,49 @@ INSTANCE_ID=$(echo $SSH_INFO | awk -F"%[0-9]*[A-B]*" '{print $9}')
 INSTANCE_REGION=$(echo $SSH_INFO | awk -F"%[0-9]*[A-B]*" '{print $6}')
 export SECRETS_MANAGER_URL="https://${INSTANCE_ID}.${INSTANCE_REGION}.secrets-manager.appdomain.cloud"
 
+echo "Starting to fetch ${SECRET_NAME} secret"
+
+
 if ibmcloud login --apikey $IBMCLOUD_API_KEY -r "${IBM_CLOUD_REGION}"  ;then
-    echo "Logged into IBM clouds sucessfully"
+    echo "Logged into IBM cloud sucessfully"
 else
     echo "could not log into IBM cloud"
     exit -1
 fi
 
 if ibmcloud plugin install secrets-manager  ;then
-    echo "Installed the secrets manager sucessfully"
+    echo "Secrets manager plugin installed sucessfully"
 else
-    echo "failed to install the secrets manager"
+    echo "failed to install the secrets manager plugin"
     exit -1
 fi
 
 if ibmcloud secrets-manager all-secrets --search ${SECRET_NAME} --output json > ssh-auth-id.txt  ;then
-    echo "Retrieved the secret ID sucessfully"
+    echo "Retrieved the secret instance ID sucessfully"
 else
-    echo "Failed to retrieve the secret ID"
+    echo "Failed to retrieve the secret instance ID"
     exit -1
 fi
 
 SECRET_ID=$(jq '.resources[] | select(.name=="ssh-auth") | .id' ssh-auth-id.txt | tr -d '"')
 
 if ibmcloud secrets-manager secret --secret-type=arbitrary --id ${SECRET_ID} --service-url ${SECRETS_MANAGER_URL} --output json >ssh_auth_secret.txt  ;then
-    echo "Secret has been written to the file sucessfully"
+    echo "${SECRET_NAME} json has been retrieved"
 else
-    echo "Failed to write secret"
+    echo "${SECRET_NAME} json could not be retrieved"
     exit -1
 fi
 
 if jq --arg secret_name ${SECRET_NAME} '.resources[] | select(.name==$secret_name) | .secret_data.payload' ssh_auth_secret.txt | sed 's/\\n/\n/g' | tr -d '"' > $WORKSPACE/ssh_auth.txt  ;then
-    echo "The ssh auth token has been sucessfully preserved"
+    echo "The ${SECRET_NAME} payload has been retrieved"
 else
-    echo "Secret ${SECRET_NAME} not present"
+    echo "The ${SECRET_NAME} payload could not be retrieved"
     exit -1
 fi
 
 chmod 0600  $WORKSPACE/ssh_auth.txt
+
+echo "Secret data for ${SECRET_NAME} securely stored"
 
 
 # if jq '.resources[] | select(.name=="test-auth") | .secret_data.payload' ssh_auth.txt > ssh_auth_secret.txt  ;then
