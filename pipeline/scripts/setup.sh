@@ -28,23 +28,21 @@ else
     exit -1
 fi
 
-if ibmcloud secrets-manager all-secrets --search ${SECRET_NAME} --output json > ssh-auth.txt  ;then
+if ibmcloud secrets-manager all-secrets --search ${SECRET_NAME} --output json > ssh-auth-id.txt  ;then
     echo "Retrieved the secret ID sucessfully"
 else
     echo "Failed to retrieve the secret ID"
     exit -1
 fi
 
+SECRET_ID=$(jq '.resources[] | select(.name=="ssh-auth") | .id' ssh-auth-id.txt)
 
-
-SECRET_ID=$(jq '.resources[] | select(.name=="ssh-auth") | .id' ssh-auth.txt)
-
-echo "printing ssh id"
-echo $SECRET_ID
-
-
-
-
+if ibmcloud secrets-manager secret --secret-type=arbitrary --id ${SECRET_ID} --output json >ssh_auth_secret.txt  ;then
+    echo "Secret has been written to the file sucessfully"
+else
+    echo "Failed to write secret"
+    exit -1
+fi
 
 # if jq '.resources[] | select(.name=="test-auth") | .secret_data.payload' ssh_auth.txt > ssh_auth_secret.txt  ;then
 #     echo "The ssh auth token has been sucessfully preserved"
@@ -53,7 +51,10 @@ echo $SECRET_ID
 #     exit -1
 # fi
 
+echo "just some tests"
 cat ssh_auth_secret.txt
+echo $SECRET_ID
+cat nothin.txt
 
 # $WORKSPACE is shared between steps
 python3 -m venv $WORKSPACE/virtual/environment
