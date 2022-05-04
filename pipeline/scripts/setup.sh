@@ -6,6 +6,8 @@ set -euo pipefail
 #FETCH SECRET FROM SECRET MANAGER
 
 IBMCLOUD_API_KEY="$(get_env ibmcloud-api-key "")"
+SSH_INFO="$(get_env ssh-auth "")"
+SECRET_NAME="$(get_env secret-name "")"
 DEV_REGION="$(get_env dev-region "")"
 IBM_CLOUD_REGION="${DEV_REGION#*:*:}"
 
@@ -23,7 +25,10 @@ else
     exit
 fi
 
-ibmcloud secrets-manager secret --secret-type "arbitrary" --id "ebf45e88-6650-4c91-e795-d11250577278" --service-url https://c30c55a3-7252-47aa-aeb9-8d21da464f45.us-south.secrets-manager.appdomain.cloud --output json > ssh_auth.txt
+echo "printing ssh info"
+echo $SSH_INFO
+echo $SECRET_NAME
+
 
 if jq '.resources[] | select(.name=="test-auth") | .secret_data.payload' ssh_auth.txt > ssh_auth_secret.txt  ;then
     echo "The ssh auth token has been sucessfully preserved"
