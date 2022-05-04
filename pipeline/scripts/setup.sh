@@ -38,7 +38,7 @@ else
     exit -1
 fi
 
-SECRET_ID=$(jq '.resources[] | select(.name=="${SECRET_NAME}") | .id' ssh-auth-id.txt | tr -d '"')
+SECRET_ID=$(jq --arg secret_name ${SECRET_NAME} '.resources[] | select(.name==$secret_name) | .id' ssh-auth-id.txt | tr -d '"')
 
 if ibmcloud secrets-manager secret --secret-type=arbitrary --id ${SECRET_ID} --service-url ${SECRETS_MANAGER_URL} --output json >ssh_auth_secret.txt  ;then
     echo "${SECRET_NAME} json has been retrieved"
