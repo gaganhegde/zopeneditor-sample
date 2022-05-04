@@ -11,5 +11,4 @@ all:
     zos_host:
       ansible_host: 128.168.133.93
       ansible_user: ibmuser
-      ansible_password: sys1 
       ansible_ssh_port: 9222
