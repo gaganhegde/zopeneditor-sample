@@ -59,18 +59,6 @@ fi
 echo "Secret data for ${SECRET_NAME} securely stored"
 
 
-# if jq '.resources[] | select(.name=="test-auth") | .secret_data.payload' ssh_auth.txt > ssh_auth_secret.txt  ;then
-#     echo "The ssh auth token has been sucessfully preserved"
-# else
-#     echo "Secret 'test-auth' not present"
-#     exit -1
-# fi
-
-# echo "just some tests"
-# cat ssh_auth_secret.txt
-# echo $SECRET_ID
-# cat nothin.txt
-
 # $WORKSPACE is shared between steps
 python3 -m venv $WORKSPACE/virtual/environment
 source $WORKSPACE/virtual/environment/bin/activate
