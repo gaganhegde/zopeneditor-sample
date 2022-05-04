@@ -26,8 +26,12 @@ else
 fi
 
 echo "printing ssh info"
-echo $SSH_INFO
-echo $SECRET_NAME
+INSTANCE_ID=$(echo $SSH_INFO | awk -F"%[0-9]*[A-B]*" '{print $9}')
+INSTANCE_REGION=$(echo $SSH_INFO | awk -F"%[0-9]*[A-B]*" '{print $6}')
+echo $INSTANCE_ID
+echo $INSTANCE_REGION
+
+
 
 
 # if jq '.resources[] | select(.name=="test-auth") | .secret_data.payload' ssh_auth.txt > ssh_auth_secret.txt  ;then
