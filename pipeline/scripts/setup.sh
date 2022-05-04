@@ -14,7 +14,7 @@ INSTANCE_ID=$(echo $SSH_INFO | awk -F"%[0-9]*[A-B]*" '{print $9}')
 INSTANCE_REGION=$(echo $SSH_INFO | awk -F"%[0-9]*[A-B]*" '{print $6}')
 export SECRETS_MANAGER_URL="https://${INSTANCE_ID}.${INSTANCE_REGION}.secrets-manager.appdomain.cloud"
 
-if ibmcloud login --apikey $IBMCLOUD_API_KEY -r "$IBM_CLOUD_REGION"  ;then
+if ibmcloud login --apikey $IBMCLOUD_API_KEY -r "${IBM_CLOUD_REGION}"  ;then
     echo "Logged into IBM clouds sucessfully"
 else
     echo "could not log into IBM cloud"
@@ -35,18 +35,24 @@ else
     exit -1
 fi
 
-SECRET_ID=$(jq '.resources[] | select(.name=="ssh-auth") | .id' ssh-auth-id.txt)
-echo $SECRET_ID
-set_env ID $SECRET_ID
+SECRET_ID=$(jq '.resources[] | select(.name=="ssh-auth") | .id' ssh-auth-id.txt | tr -d '"')
 
-ibmcloud secrets-manager secret --secret-type=arbitrary --id $SECRET_ID --service-url ${SECRETS_MANAGER_URL} --output json
-
-if ibmcloud secrets-manager secret --secret-type=arbitrary --id="$(get_env ID "")" --service-url ${SECRETS_MANAGER_URL} --output json >ssh_auth_secret.txt  ;then
+if ibmcloud secrets-manager secret --secret-type=arbitrary --id ${SECRET_ID} --service-url ${SECRETS_MANAGER_URL} --output json >ssh_auth_secret.txt  ;then
     echo "Secret has been written to the file sucessfully"
 else
     echo "Failed to write secret"
     exit -1
 fi
+
+if jq --arg secret_name ${SECRET_NAME} '.resources[] | select(.name==$secret_name) | .secret_data.payload' ssh_auth_secret.txt | sed 's/\\n/\n/g' | tr -d '"' > $WORKSPACE/ssh_auth.txt  ;then
+    echo "The ssh auth token has been sucessfully preserved"
+else
+    echo "Secret ${SECRET_NAME} not present"
+    exit -1
+fi
+
+chmod 0600  $WORKSPACE/ssh_auth.txt
+
 
 # if jq '.resources[] | select(.name=="test-auth") | .secret_data.payload' ssh_auth.txt > ssh_auth_secret.txt  ;then
 #     echo "The ssh auth token has been sucessfully preserved"
@@ -55,10 +61,10 @@ fi
 #     exit -1
 # fi
 
-echo "just some tests"
-cat ssh_auth_secret.txt
-echo $SECRET_ID
-cat nothin.txt
+# echo "just some tests"
+# cat ssh_auth_secret.txt
+# echo $SECRET_ID
+# cat nothin.txt
 
 # $WORKSPACE is shared between steps
 python3 -m venv $WORKSPACE/virtual/environment
