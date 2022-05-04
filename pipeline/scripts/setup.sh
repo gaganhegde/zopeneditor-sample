@@ -39,9 +39,9 @@ SECRET_ID=$(jq '.resources[] | select(.name=="ssh-auth") | .id' ssh-auth-id.txt)
 echo $SECRET_ID
 set_env ID $SECRET_ID
 
-echo ibmcloud secrets-manager secret --secret-type=arbitrary --id="$(get_env ID "")" --output json
+echo ibmcloud secrets-manager secret --secret-type=arbitrary --id="$(get_env ID "")" --service-url ${SECRETS_MANAGER_URL} --output json
 
-if ibmcloud secrets-manager secret --secret-type=arbitrary --id="$(get_env ID "")" --output json >ssh_auth_secret.txt  ;then
+if ibmcloud secrets-manager secret --secret-type=arbitrary --id="$(get_env ID "")" --service-url ${SECRETS_MANAGER_URL} --output json >ssh_auth_secret.txt  ;then
     echo "Secret has been written to the file sucessfully"
 else
     echo "Failed to write secret"
