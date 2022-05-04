@@ -15,14 +15,14 @@ if ibmcloud login --apikey $IBMCLOUD_API_KEY -r "$IBM_CLOUD_REGION"  ;then
     echo "Logged into IBM clouds sucessfully"
 else
     echo "could not log into IBM cloud"
-    exit
+    exit -1
 fi
 
 if ibmcloud plugin install secrets-manager  ;then
     echo "Installed the secrets manager sucessfully"
 else
     echo "failed to install the secrets manager"
-    exit
+    exit -1
 fi
 
 echo "printing ssh info"
@@ -30,12 +30,12 @@ echo $SSH_INFO
 echo $SECRET_NAME
 
 
-if jq '.resources[] | select(.name=="test-auth") | .secret_data.payload' ssh_auth.txt > ssh_auth_secret.txt  ;then
-    echo "The ssh auth token has been sucessfully preserved"
-else
-    echo "Secret 'test-auth' not present"
-    exit
-fi
+# if jq '.resources[] | select(.name=="test-auth") | .secret_data.payload' ssh_auth.txt > ssh_auth_secret.txt  ;then
+#     echo "The ssh auth token has been sucessfully preserved"
+# else
+#     echo "Secret 'test-auth' not present"
+#     exit -1
+# fi
 
 cat ssh_auth_secret.txt
 
