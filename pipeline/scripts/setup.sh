@@ -28,12 +28,14 @@ else
     exit -1
 fi
 
-if ibmcloud secrets-manager all-secrets --search ${INSTANCE_REGION} --output json > ssh-auth.txt  ;then
+if ibmcloud secrets-manager all-secrets --search ${SECRET_NAME} --output json > ssh-auth.txt  ;then
     echo "Retrieved the secret ID sucessfully"
 else
     echo "Failed to retrieve the secret ID"
     exit -1
 fi
+
+
 
 SECRET_ID=$(jq '.resources[] | select(.name=="ssh-auth") | .id' ssh-auth.txt)
 
