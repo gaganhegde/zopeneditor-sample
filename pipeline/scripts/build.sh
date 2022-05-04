@@ -10,4 +10,4 @@ wget https://rpmfind.net/linux/centos/8-stream/AppStream/x86_64/os/Packages/sshp
 rpm -i sshpass-1.09-4.el8.x86_64.rpm
 
 cd pipeline/playbooks
-ansible-playbook -i inventories build.yml -e app_repo=$APP_REPO -e app_branch=$BRANCH -e app_repo_name=$APP_REPO_NAME
+ansible-playbook --key-file $WORKSPACE/ssh_auth.txt -i inventories build.yml -e app_repo=$APP_REPO -e app_branch=$BRANCH -e app_repo_name=$APP_REPO_NAME
