@@ -10,6 +10,9 @@ SSH_INFO="$(get_env ssh-auth "")"
 SECRET_NAME="$(get_env secret-name "")"
 DEV_REGION="$(get_env dev-region "")"
 IBM_CLOUD_REGION="${DEV_REGION#*:*:}"
+INSTANCE_ID=$(echo $SSH_INFO | awk -F"%[0-9]*[A-B]*" '{print $9}')
+INSTANCE_REGION=$(echo $SSH_INFO | awk -F"%[0-9]*[A-B]*" '{print $6}')
+export SECRETS_MANAGER_URL="https://${INSTANCE_ID}.${INSTANCE_REGION}.secrets-manager.appdomain.cloud"
 
 if ibmcloud login --apikey $IBMCLOUD_API_KEY -r "$IBM_CLOUD_REGION"  ;then
     echo "Logged into IBM clouds sucessfully"
@@ -25,11 +28,18 @@ else
     exit -1
 fi
 
-echo "printing ssh info"
-INSTANCE_ID=$(echo $SSH_INFO | awk -F"%[0-9]*[A-B]*" '{print $9}')
-INSTANCE_REGION=$(echo $SSH_INFO | awk -F"%[0-9]*[A-B]*" '{print $6}')
-echo $INSTANCE_ID
-echo $INSTANCE_REGION
+if ibmcloud secrets-manager all-secrets --search ${INSTANCE_REGION} --output json > ssh-auth.txt  ;then
+    echo "Retrieved the secret ID sucessfully"
+else
+    echo "Failed to retrieve the secret ID"
+    exit -1
+fi
+
+SECRET_ID=$(jq '.resources[] | select(.name=="ssh-auth") | .id' ssh-auth.txt)
+
+echo "printing ssh id"
+echo $SECRET_ID
+
 
 
 
