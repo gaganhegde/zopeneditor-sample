@@ -6,7 +6,7 @@ set -euo pipefail
 #FETCH SECRET FROM SECRET MANAGER
 
 IBMCLOUD_API_KEY="$(get_env ibmcloud-api-key "")"
-SSH_INFO="$(get_env ssh-auth "")"
+SSH_INFO="$(get_env secret-info "")"
 SECRET_NAME="$(get_env secret-name "")"
 DEV_REGION="$(get_env dev-region "")"
 IBM_CLOUD_REGION="${DEV_REGION#*:*:}"
@@ -31,31 +31,30 @@ else
     exit -1
 fi
 
-if ibmcloud secrets-manager all-secrets --search ${SECRET_NAME} --output json > ssh-auth-id.txt  ;then
+if ibmcloud secrets-manager all-secrets --search ${SECRET_NAME} --output json > secret-auth-id.txt  ;then
     echo "Retrieved the secret instance ID sucessfully"
 else
     echo "Failed to retrieve the secret instance ID"
     exit -1
 fi
 
-SECRET_ID=$(jq --arg secret_name ${SECRET_NAME} '.resources[] | select(.name==$secret_name) | .id' ssh-auth-id.txt | tr -d '"')
+SECRET_ID=$(jq --arg secret_name ${SECRET_NAME} '.resources[] | select(.name==$secret_name) | .id' secret-auth-id.txt | tr -d '"')
 
-if ibmcloud secrets-manager secret --secret-type=arbitrary --id ${SECRET_ID} --service-url ${SECRETS_MANAGER_URL} --output json >ssh_auth_secret.txt  ;then
+if ibmcloud secrets-manager secret --secret-type=arbitrary --id ${SECRET_ID} --service-url ${SECRETS_MANAGER_URL} --output json >auth_secret.txt  ;then
     echo "${SECRET_NAME} json has been retrieved"
 else
     echo "${SECRET_NAME} json could not be retrieved"
     exit -1
 fi
 
-if jq --arg secret_name ${SECRET_NAME} '.resources[] | select(.name==$secret_name) | .secret_data.payload' ssh_auth_secret.txt | sed 's/\\n/\n/g' | tr -d '"' > $WORKSPACE/ssh_auth.txt  ;then
+if jq --arg secret_name ${SECRET_NAME} '.resources[] | select(.name==$secret_name) | .secret_data.payload' auth_secret.txt | sed 's/\\n/\n/g' | tr -d '"' > $WORKSPACE/secret.txt  ;then
     echo "The ${SECRET_NAME} payload has been retrieved"
 else
     echo "The ${SECRET_NAME} payload could not be retrieved"
     exit -1
 fi
 
-chmod 0600  $WORKSPACE/ssh_auth.txt
-
+cat secret.txt
 echo "Secret data for ${SECRET_NAME} securely stored"
 
 
