@@ -10,12 +10,14 @@ END
 
 echo "printing sample.log"
 cat sample.log
-
+echo "just fetching some env variables"
+echo "${PIPELINE_RUN_ID}"
+echo "${TOOLCHAIN_CRN}"
 echo $(get_env cos-api-key "") $(get_env cos-bucket-name "") $(get_env cos-endpoint "") "running pipeline"
-echo "testing evidence info"
-echo $(get_env evidence-info "")
-cocoa --version
-echo "evidence upload-1"
-cocoa evidence upload --backend=cos --evidence-name=zopeneditor-logs --COS_API_KEY=$(get_env cos-api-key "") --COS_BUCKET_NAME=$(get_env cos-bucket-name "") --COS_ENDPOINT=$(get_env cos-endpoint "")
-echo "evidence upload-2"
-cocoa evidence upload --backend=cos --evidence-name=zopeneditor-logs --COS_API_KEY=$(get_env cos-api-key "") --COS_BUCKET_NAME=$(get_env cos-bucket-name "") --COS_ENDPOINT=$(get_env cos-endpoint "") --artifact=./sample.log d41d8cd98f00b204e9800998ecf8427e
+# echo "testing evidence info"
+# echo $(get_env evidence-info "")
+# cocoa --version
+# echo "evidence upload-1"
+# cocoa evidence upload --backend=cos --evidence-name=zopeneditor-logs --COS_API_KEY=$(get_env cos-api-key "") --COS_BUCKET_NAME=$(get_env cos-bucket-name "") --COS_ENDPOINT=$(get_env cos-endpoint "")
+# echo "evidence upload-2"
+# cocoa evidence upload --backend=cos --evidence-name=zopeneditor-logs --COS_API_KEY=$(get_env cos-api-key "") --COS_BUCKET_NAME=$(get_env cos-bucket-name "") --COS_ENDPOINT=$(get_env cos-endpoint "") --artifact=./sample.log d41d8cd98f00b204e9800998ecf8427e
