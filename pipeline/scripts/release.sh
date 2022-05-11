@@ -12,5 +12,5 @@ line-1
 line-2
 END
 
-echo $COS-API-KEY $COS-BUCKET-NAME $COS-ENDPOINT
+echo $COS-API-KEY $COS-BUCKET-NAME $COS-ENDPOINT "running pipeline"
 cocoa evidence upload --COS_API_KEY=$COS-API-KEY --COS_BUCKET_NAME=$COS-BUCKET-NAME --COS_ENDPOINT=$COS-ENDPOINT --artifact=./sample.log
