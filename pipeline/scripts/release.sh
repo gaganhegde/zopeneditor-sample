@@ -12,5 +12,8 @@ line-1
 line-2
 END
 
-echo $COS-API-KEY $COS-BUCKET-NAME $COS-ENDPOINT "running pipeline"
-cocoa evidence upload --COS_API_KEY=$COS-API-KEY --COS_BUCKET_NAME=$COS-BUCKET-NAME --COS_ENDPOINT=$COS-ENDPOINT --artifact=./sample.log
+echo "printing sample.log"
+cat sample.log
+
+echo $(get_env cos-api-key "") $(get_env cos-bucket-name "") $(get_env cos-endpoint "") "running pipeline"
+cocoa evidence upload --COS_API_KEY=$(get_env cos-api-key "") --COS_BUCKET_NAME=$(get_env cos-bucket-name "") --COS_ENDPOINT=$(get_env cos-endpoint "") --artifact=./sample.log
