@@ -61,6 +61,7 @@ release:
   script: |
     #!/usr/bin/env bash
     echo "Perform Release"
+    source pipeline/scripts/release.sh
     exit 0 
 
 dynamic-scan:
