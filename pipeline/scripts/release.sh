@@ -22,4 +22,4 @@ cat >> sample.log << 'END'
 END
 
 echo "Running the cocoa evidence upload command"
-./cocoa-macos-1.49.0 evidence upload "${params[@]}"
+cocoa evidence upload "${params[@]}"
