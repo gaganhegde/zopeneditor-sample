@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+echo "saving params"
 params=(
     --backend="cos"
     --evidence-name="zopeneditor-sample"
