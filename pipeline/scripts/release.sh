@@ -32,4 +32,4 @@ echo "Running the cocoa evidence upload command"
 cocoa evidence upload "${params_evidence[@]}"
 
 echo "Running the artifact upload"
-cocoa artifact upload "${evidence_artifact_upload[@]}" ./sample.log
+cocoa artifact upload "${params_artifact_upload[@]}" ./sample.log
