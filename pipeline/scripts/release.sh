@@ -17,7 +17,6 @@ params_evidence=(
 
 params_artifact_upload=(
     --backend="cos"
-    --evidence-name="zopeneditor-sample"
     --namespace="ci"
     --pipeline-run-id="${PIPELINE_RUN_ID}"
 )
