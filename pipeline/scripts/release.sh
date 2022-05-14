@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 echo "saving params"
-params=(
+params_evidence=(
     --backend="cos"
     --evidence-name="zopeneditor-sample"
     --namespace="ci"
@@ -15,6 +15,13 @@ params=(
     --issue=./sample.log
 )
 
+params_artifact_upload=(
+    --backend="cos"
+    --evidence-name="zopeneditor-sample"
+    --namespace="ci"
+    --pipeline-run-id="${PIPELINE_RUN_ID}"
+)
+
 
 echo "Creating a sample log file"
 cat >> sample.log << 'END'
@@ -23,4 +30,7 @@ cat >> sample.log << 'END'
 END
 
 echo "Running the cocoa evidence upload command"
-cocoa evidence upload "${params[@]}"
+cocoa evidence upload "${params_evidence[@]}"
+
+echo "Running the artifact upload"
+cocoa artifact upload "${evidence_artifact_upload[@]}" ./sample.log
