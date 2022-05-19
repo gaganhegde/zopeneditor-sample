@@ -21,6 +21,17 @@ params_artifact_upload=(
     --pipeline-run-id="${PIPELINE_RUN_ID}"
 )
 
+echo "Printing a list of environment variables"
+echo "pipeline run id"
+echo ${PIPELINE_RUN_ID}
+echo "GHE_TOKEN"
+echo ${GHE_TOKEN}
+echo "EVIDENCE_REPO_ORG"
+echo ${EVIDENCE_REPO_ORG}
+echo "Evidence_repo_name"
+echo ${EVIDENCE_REPO_NAME}
+echo "Namespace"
+echo ${NAMESPACE}
 
 echo "Creating a sample log file"
 cat >> sample.log << 'END'
