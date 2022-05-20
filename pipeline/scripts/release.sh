@@ -20,11 +20,12 @@ params_artifact_upload_cos=(
     --pipeline-run-id="${PIPELINE_RUN_ID}"
 )
 
-params_artifact_upload_git=(
-    --backend="git"
-    --namespace="ci"
-    --pipeline-run-id="${PIPELINE_RUN_ID}"
-)
+#Parameters required for upload to git.
+# params_artifact_upload_git=(
+#     --backend="git"
+#     --namespace="ci"
+#     --pipeline-run-id="${PIPELINE_RUN_ID}"
+# )
 
 LOG_FILE_PATH="$(get_env log_file_path "")"
 export LOG_FILE_PATH
