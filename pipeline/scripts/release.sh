@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-echo "saving params"
+echo "creating required params to upload evidence"
 params_evidence=(
     --backend="cos"
     --evidence-name="zopeneditor-sample"
@@ -27,29 +27,6 @@ params_artifact_upload_git=(
     --pipeline-run-id="${PIPELINE_RUN_ID}"
 )
 
-echo "Printing a list of environment variables"
-echo "pipeline run id"
-echo ${PIPELINE_RUN_ID}
-echo "GITLAB_TOKEN"
-echo ${GITLAB_TOKEN}
-echo "GIT_TOKEN"
-echo ${GIT_TOKEN}
-echo 
-echo "EVIDENCE_REPO_ORG"
-echo ${EVIDENCE_REPO_ORG}
-echo "Evidence_repo_name"
-echo ${EVIDENCE_REPO_NAME}
-echo "Namespace"
-echo ${NAMESPACE}
-
-EVIDENCE_PROPERTIES="$(get_env evidence-properties "")"
-GHE_TOKEN="$(get_env GHE_TOKEN "")"
-export GHE_TOKEN
-echo "evidence_properties"
-echo ${EVIDENCE_PROPERTIES}
-echo "evidence repo"
-echo ${EVIDENCE-REPO}
-
 echo "Creating a sample log file"
 cat >> sample.log << 'END'
     line-1
@@ -61,7 +38,3 @@ cocoa evidence upload "${params_evidence[@]}"
 
 echo "Running the artifact upload for COS"
 cocoa artifact upload "${params_artifact_upload_cos[@]}" ./sample.log
-
-echo "Running the artifact upload for GitLab"
-cocoa artifact upload "${params_artifact_upload_git[@]}" ./sample.log
-
