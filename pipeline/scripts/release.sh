@@ -43,6 +43,8 @@ echo "Namespace"
 echo ${NAMESPACE}
 
 EVIDENCE_PROPERTIES="$(get_env evidence-properties "")"
+GHE_TOKEN="$(get_env GHE_TOKEN "")"
+export GHE_TOKEN
 echo "evidence_properties"
 echo ${EVIDENCE_PROPERTIES}
 echo "evidence repo"
