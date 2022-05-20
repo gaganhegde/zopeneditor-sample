@@ -24,8 +24,11 @@ params_artifact_upload=(
 echo "Printing a list of environment variables"
 echo "pipeline run id"
 echo ${PIPELINE_RUN_ID}
-echo "GHE_TOKEN"
-echo ${GHE_TOKEN}
+echo "GITLAB_TOKEN"
+echo ${GITLAB_TOKEN}
+echo "GIT_TOKEN"
+echo ${GIT_TOKEN}
+echo 
 echo "EVIDENCE_REPO_ORG"
 echo ${EVIDENCE_REPO_ORG}
 echo "Evidence_repo_name"
