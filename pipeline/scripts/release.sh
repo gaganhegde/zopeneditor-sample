@@ -36,6 +36,12 @@ echo ${EVIDENCE_REPO_NAME}
 echo "Namespace"
 echo ${NAMESPACE}
 
+EVIDENCE_PROPERTIES="$(get_env evidence-properties "")"
+echo "evidence_properties"
+echo ${EVIDENCE_PROPERTIES}
+echo "evidence repo"
+echo ${EVIDENCE-REPO}
+
 echo "Creating a sample log file"
 cat >> sample.log << 'END'
     line-1
