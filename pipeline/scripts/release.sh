@@ -15,8 +15,14 @@ params_evidence=(
     --issue=./sample.log
 )
 
-params_artifact_upload=(
+params_artifact_upload_cos=(
     --backend="cos"
+    --namespace="ci"
+    --pipeline-run-id="${PIPELINE_RUN_ID}"
+)
+
+params_artifact_upload_git=(
+    --backend="git"
     --namespace="ci"
     --pipeline-run-id="${PIPELINE_RUN_ID}"
 )
@@ -51,5 +57,9 @@ END
 echo "Running the cocoa evidence upload command"
 cocoa evidence upload "${params_evidence[@]}"
 
-echo "Running the artifact upload"
-cocoa artifact upload "${params_artifact_upload[@]}" ./sample.log
+echo "Running the artifact upload for COS"
+cocoa artifact upload "${params_artifact_upload_cos[@]}" ./sample.log
+
+echo "Running the artifact upload for GitLab"
+cocoa artifact upload "${params_artifact_upload_git[@]}" ./sample.log
+
