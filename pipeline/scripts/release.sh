@@ -12,7 +12,6 @@ params_evidence=(
     --toolchain-crn="${TOOLCHAIN_CRN}"
     --pipeline-run-url="${PIPELINE_RUN_URL}"
     --pipeline-id="${PIPELINE_ID}"
-    --issue=./sample.log
 )
 
 params_artifact_upload_cos=(
@@ -27,14 +26,26 @@ params_artifact_upload_git=(
     --pipeline-run-id="${PIPELINE_RUN_ID}"
 )
 
+LOG_FILE_PATH="$(get_env log_file_path "")"
+export LOG_FILE_PATH
 echo "Creating a sample log file"
 cat >> sample.log << 'END'
-    line-1
-    line-2
+    sample log file
 END
 
-echo "Running the cocoa evidence upload command"
-cocoa evidence upload "${params_evidence[@]}"
 
-echo "Running the artifact upload for COS"
-cocoa artifact upload "${params_artifact_upload_cos[@]}" ./sample.log
+echo "Running the cocoa evidence upload command"
+if cocoa evidence upload "${params_evidence[@]}";then
+    echo "Evidence uploaded successfully"
+else
+    echo "Evidence upload unsuccessful"
+    exit -1
+fi
+
+echo "Running the cocoa evidence upload command"
+if cocoa artifact upload "${params_artifact_upload_cos[@]}" "${LOG_FILE_PATH}";then
+    echo "Artifact uploaded successfully"
+else
+    echo "Artifact upload unsuccessful"
+    exit -1
+fi
