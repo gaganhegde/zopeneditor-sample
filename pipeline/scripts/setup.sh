@@ -54,7 +54,8 @@ else
     exit -1
 fi
 
-cat $WORKSPACE/secret.txt
+# cat $WORKSPACE/secret.txt
+chmod 0600 $WORKSPACE/secret.txt
 echo "Secret data for ${SECRET_NAME} securely stored"
 
 
