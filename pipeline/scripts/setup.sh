@@ -47,7 +47,7 @@ else
     exit -1
 fi
 
-if jq --arg secret_name ${SECRET_NAME} '.resources[] | select(.name==$secret_name) | .secret_data.payload' auth_secret.txt | sed 's/\\n/\n/g' | tr -d '"' > $WORKSPACE/secret.txt  ;then
+if jq --arg secret_name ${SECRET_NAME} '.resources[] | select(.name==$secret_name) | .secret_data.payload' auth_secret.txt | sed 's/\\n/\n/g' | tr -d '"' > $WORKSPACE/ssh_auth.txt  ;then
     echo "The ${SECRET_NAME} payload has been retrieved"
 else
     echo "The ${SECRET_NAME} payload could not be retrieved"
@@ -55,7 +55,7 @@ else
 fi
 
 # cat $WORKSPACE/secret.txt
-chmod 0600 $WORKSPACE/secret.txt
+chmod 0600 $WORKSPACE/ssh_auth.txt
 echo "Secret data for ${SECRET_NAME} securely stored"
 
 
