@@ -12,3 +12,4 @@ all:
       ansible_host: 128.168.133.93
       ansible_user: ibmuser
       ansible_ssh_port: 9222
+#       ansible_pass: <password>
